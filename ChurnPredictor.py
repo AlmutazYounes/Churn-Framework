@@ -3,7 +3,6 @@ from config import Config
 from feature_loader import FeatureLoader
 from util import Util
 
-
 class ChurnPredictor:
     def __init__(self):
         self.feature_definitions = Util.get_feature_definitions(Config.features_type)
