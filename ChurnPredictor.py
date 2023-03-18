@@ -1,8 +1,7 @@
-import pandas as pd
 from automl import AutoML
+from config import Config
 from feature_loader import FeatureLoader
 from util import Util
-from config import Config
 
 
 class ChurnPredictor:
@@ -27,7 +26,6 @@ class ChurnPredictor:
     #     feature_extractor = FeatureLoader(self.feature_definitions)
     #     new_features = feature_extractor.extract_features(new_data)
     #     return self.model.predict(new_features)
-
 
     def run(self):
         self.load_data()
