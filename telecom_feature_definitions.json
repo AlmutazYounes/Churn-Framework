@@ -1,0 +1,82 @@
+{
+    "gender": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "SeniorCitizen": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "Partner": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "Dependents": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "tenure": {
+        "type": "numeric",
+        "function": "absolute"
+    },
+    "PhoneService": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "MultipleLines": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "InternetService": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "OnlineSecurity": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "OnlineBackup": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "DeviceProtection": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "TechSupport": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "StreamingTV": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "StreamingMovies": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "Contract": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "PaperlessBilling": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "PaymentMethod": {
+        "type": "categorical",
+        "function": "categorical_encoding"
+    },
+    "MonthlyCharges": {
+        "type": "numeric",
+        "function": "absolute"
+    },
+    "TotalCharges": {
+        "type": "numeric",
+        "function": "absolute"
+    },
+    "Churn": {
+        "type": "label",
+        "function": "label"
+    }
+}
