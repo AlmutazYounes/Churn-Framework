@@ -3,6 +3,7 @@ from config import Config
 from feature_loader import FeatureLoader
 from util import Util
 
+
 class ChurnPredictor:
     def __init__(self):
         self.feature_definitions = Util.get_feature_definitions(Config.features_type)
@@ -12,8 +13,9 @@ class ChurnPredictor:
 
     def extract_features(self):
         feature_extractor = FeatureLoader(self.feature_definitions)
-        self.train_data, self.test_data = feature_extractor.extract_features(self.train_data, self.test_data)
         self.train_data, self.test_data = feature_extractor.preprocessing(self.train_data, self.test_data)
+
+        self.train_data, self.test_data = feature_extractor.extract_features(self.train_data, self.test_data)
         feature_extractor.save_features(self.train_data, self.test_data)
 
     def train_model(self):

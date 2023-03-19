@@ -1,82 +1,122 @@
 {
-    "gender": {
-        "type": "categorical",
-        "function": "categorical_encoding"
+  "gender": {
+    "type": "absolute",
+    "preprocess": "binary_encoding",
+    "binary_map": {
+      "Male": 1,
+      "Female": 0
     },
-    "SeniorCitizen": {
-        "type": "categorical",
-        "function": "categorical_encoding"
+    "conf": {}
+  },
+  "SeniorCitizen": {
+    "type": "absolute",
+    "preprocess": "None",
+    "conf": {}
+  },
+  "Partner": {
+    "type": "absolute",
+    "preprocess": "binary_encoding",
+    "binary_map": {
+      "Yes": 1,
+      "No": 0
     },
-    "Partner": {
-        "type": "categorical",
-        "function": "categorical_encoding"
+    "conf": {}
+  },
+  "Dependents": {
+    "type": "absolute",
+    "preprocess": "binary_encoding",
+    "binary_map": {
+      "Yes": 1,
+      "No": 0
     },
-    "Dependents": {
-        "type": "categorical",
-        "function": "categorical_encoding"
+    "conf": {}
+  },
+  "tenure": {
+    "type": "absolute",
+    "preprocess": "normalize",
+    "conf": {}
+  },
+  "PhoneService": {
+    "type": "absolute",
+    "preprocess": "binary_encoding",
+    "binary_map": {
+      "Yes": 1,
+      "No": 0
     },
-    "tenure": {
-        "type": "numeric",
-        "function": "absolute"
+    "conf": {}
+  },
+  "MultipleLines": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "InternetService": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "OnlineSecurity": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "OnlineBackup": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "DeviceProtection": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "TechSupport": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "StreamingTV": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "StreamingMovies": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "Contract": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "PaperlessBilling": {
+    "type": "absolute",
+    "preprocess": "binary_encoding",
+    "binary_map": {
+      "Yes": 1,
+      "No": 0
     },
-    "PhoneService": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "MultipleLines": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "InternetService": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "OnlineSecurity": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "OnlineBackup": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "DeviceProtection": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "TechSupport": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "StreamingTV": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "StreamingMovies": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "Contract": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "PaperlessBilling": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "PaymentMethod": {
-        "type": "categorical",
-        "function": "categorical_encoding"
-    },
-    "MonthlyCharges": {
-        "type": "numeric",
-        "function": "absolute"
-    },
-    "TotalCharges": {
-        "type": "numeric",
-        "function": "absolute"
-    },
-    "Churn": {
-        "type": "label",
-        "function": "label"
-    }
+    "conf": {}
+  },
+  "PaymentMethod": {
+    "type": "absolute",
+    "preprocess": "one_hot_encoding",
+    "conf": {}
+  },
+  "MonthlyCharges": {
+    "type": "absolute",
+    "preprocess": "normalize",
+    "conf": {}
+  },
+  "TotalCharges": {
+    "type": "absolute",
+    "preprocess": "normalize",
+    "conf": {}
+  },
+  "Churn": {
+    "type": "label",
+    "preprocess": "None",
+    "conf": {}
+  }
 }

@@ -1,19 +1,22 @@
-import pandas as pd
 import numpy as np
-from util import Util
+import pandas as pd
+
 from config import Config
+from feature_engineer import FeatureEngineer
+from util import Util
+
 
 class FeatureLoader:
     def __init__(self, feature_definitions):
         self.feature_definitions = feature_definitions
 
-    def feature_extraction_methods(self, data, feature, function_, **params):
-        if function_ == "absolute":
-            return Util.absolute(data, feature)
-        if function_ == "categorical_encoding":
-            return Util.categorical_encoding(data, feature)
-        if function_ == "label":
-            return Util.label(data, feature)
+    def feature_extraction_methods(self, data, feature, type_, **conf):
+        if type_ == "absolute":
+            return Util.absolute(data, feature, **conf)
+        if type_ == "categorical_encoding":
+            return Util.categorical_encoding(data, feature, **conf)
+        if type_ == "label":
+            return Util.label(data, feature, **conf)
 
     def extract_features(self, train_data, test_data):
         train_features = pd.DataFrame()
@@ -21,13 +24,16 @@ class FeatureLoader:
         # Train Data
         for feature in self.feature_definitions:
             feature_params = self.feature_definitions[feature]
-            train_feature = self.feature_extraction_methods(train_data, feature, feature_params["function"])
+            conf = self.feature_definitions[feature]["conf"]
+            train_feature = self.feature_extraction_methods(train_data, feature, feature_params["type"], **conf)
             train_features = pd.concat([train_features, pd.DataFrame(train_feature)], axis=1)
 
-        # Test Data
-            test_feature = self.feature_extraction_methods(test_data, feature, feature_params["function"])
+            # Test Data
+            test_feature = self.feature_extraction_methods(test_data, feature, feature_params["type"], **conf)
             test_features = pd.concat([test_features, pd.DataFrame(test_feature)], axis=1)
 
+        train_features = FeatureEngineer().preprocess(train_features, self.feature_definitions, data_type="train")
+        test_features = FeatureEngineer().preprocess(test_features, self.feature_definitions, data_type="test")
         return train_features, test_features
 
     def preprocessing(self, train_data, test_data):

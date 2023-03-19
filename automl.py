@@ -17,30 +17,30 @@ class AutoML:
     def __init__(self):
         self.models = [
             ("DecisionTreeClassifier", DecisionTreeClassifier(), {
-                'max_depth': [3, 5, None],
-                'max_features': ['sqrt', 'log2', None]
+                'max_depth': [3],
+                'max_features': ['sqrt']
             }),
             ("RandomForestClassifier", RandomForestClassifier(), {
-                'n_estimators': [100, 500],
-                'max_depth': [3, 5, None],
-                'max_features': ['sqrt', 'log2', None]
+                'n_estimators': [100],
+                'max_depth': [3],
+                'max_features': ['sqrt']
             }),
-            ("SVM", SVC(), {
-                'C': [0.1, 1, 10],
-                'gamma': ['scale', 'auto'],
-                'kernel': ['linear', 'rbf']
-            }),
+            # ("SVM", SVC(), {
+            #     'C': [0.1],
+            #     'gamma': ['scale'],
+            #     'kernel': ['linear']
+            # }),
             ("LogisticRegression", LogisticRegression(), {
-                'C': [0.1, 1, 10],
-                'penalty': ['l1', 'l2', 'elasticnet', 'none'],
-                'solver': ['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga']
+                'C': [0.1],
+                'penalty': ['l2'],
+                'solver': ['newton-cg']
             }),
-            ("LGBMClassifier", LGBMClassifier(), {
-                'num_leaves': [31, 64, 128],
-                'max_depth': [-1, 3, 5],
-                'learning_rate': [0.1, 0.01, 0.001],
-                'n_estimators': [100, 500]
-            })
+            # ("LGBMClassifier", LGBMClassifier(), {
+            #     'num_leaves': [31],
+            #     'max_depth': [-1],
+            #     'learning_rate': [0.1],
+            #     'n_estimators': [100]
+            # })
         ]
 
     def train_model(self, train_data, test_data):

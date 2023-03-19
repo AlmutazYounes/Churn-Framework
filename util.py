@@ -1,9 +1,12 @@
 import json
+
 import pandas as pd
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.model_selection import train_test_split
+
 from config import Config
+
 
 class Util:
     @staticmethod
@@ -27,7 +30,7 @@ class Util:
         return pd.DataFrame(encoded_data, columns=[feature_name])
 
     @staticmethod
-    def load_data(data_path, test_size=0.2, random_state=42):
+    def load_data(data_path, test_size=Config.test_size, random_state=Config.random_state):
         df = pd.read_csv(data_path)
         train_data, test_data = train_test_split(df, test_size=test_size, random_state=random_state)
         return train_data, test_data
