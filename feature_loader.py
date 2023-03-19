@@ -32,8 +32,9 @@ class FeatureLoader:
             test_feature = self.feature_extraction_methods(test_data, feature, feature_params["type"], **conf)
             test_features = pd.concat([test_features, pd.DataFrame(test_feature)], axis=1)
 
-        train_features = FeatureEngineer().preprocess(train_features, self.feature_definitions, data_type="train")
-        test_features = FeatureEngineer().preprocess(test_features, self.feature_definitions, data_type="test")
+        fe = FeatureEngineer()
+        train_features = fe.preprocess(train_features, self.feature_definitions, data_type="train")
+        test_features = fe.preprocess(test_features, self.feature_definitions, data_type="test")
         return train_features, test_features
 
     def preprocessing(self, train_data, test_data):
