@@ -33,7 +33,7 @@
   },
   "tenure": {
     "type": "absolute",
-    "preprocess": "minmax_scaling",
+    "preprocess": "RobustScaler_scaling",
     "conf": {}
   },
   "PhoneService": {
@@ -106,12 +106,12 @@
   },
   "MonthlyCharges": {
     "type": "absolute",
-    "preprocess": "minmax_scaling",
+    "preprocess": "RobustScaler_scaling",
     "conf": {}
   },
   "TotalCharges": {
     "type": "absolute",
-    "preprocess": "minmax_scaling",
+    "preprocess": "RobustScaler_scaling",
     "conf": {}
   },
   "Churn": {

@@ -1,15 +1,28 @@
-import numpy as np
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder, MinMaxScaler
+from imblearn.combine import SMOTETomek
+from imblearn.over_sampling import RandomOverSampler, SMOTE
+from imblearn.under_sampling import RandomUnderSampler, TomekLinks, ClusterCentroids
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder, MinMaxScaler, RobustScaler
+
+from Utils.config import Config
 
 
 class FeatureEngineer:
-    def __init__(self):
+    def __init__(self, sampling_method, ratio):
         self.scalers_encoders = dict()
+        # self.samplers = dict()
+        self.sampling_method = sampling_method
+        self.sampler_list = {"RandomOverSampler": RandomOverSampler(sampling_strategy=ratio),
+                             "RandomUnderSampler": RandomUnderSampler(sampling_strategy=ratio),
+                             "SMOTE": SMOTE(sampling_strategy=0.5),
+                             "TomekLinks": TomekLinks(),
+                             "ClusterCentroids": ClusterCentroids(),
+                             "SMOTETomek": SMOTETomek()
+                             }
 
     def OneHotEncoderStrategy(self, data, feature, data_type):
         if data_type == "train":
-            encoder = OneHotEncoder(handle_unknown='ignore', sparse=False)
+            encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
             encoded_data = encoder.fit_transform(data[[feature]])
             self.scalers_encoders[f"one_hot_encoding_{feature}_encoder"] = encoder
         else:
@@ -22,36 +35,6 @@ class FeatureEngineer:
         encoded_features = pd.DataFrame(encoded_data,
                                         columns=[f"{feature}_{cat}" for cat in encoder.categories_[0]])
         return encoded_features
-
-    def StandardScalerStrategy(self, data, feature, data_type):
-        if data_type == "train":
-            scaler = StandardScaler()
-            scaled_data = scaler.fit_transform(data[[feature]])
-            self.scalers_encoders[f"standard_scaling_{feature}_scaler"] = scaler
-        else:
-            try:
-                scaler = self.scalers_encoders[f"standard_scaling_{feature}_scaler"]
-                scaled_data = scaler.transform(data[[feature]])
-            except KeyError:
-                return None
-
-        scaled_features = pd.DataFrame(scaled_data, columns=[f"{feature}_scaled"])
-        return scaled_features
-
-    def MinMaxScalerStrategy(self, data, feature, data_type):
-        if data_type == "train":
-            scaler = MinMaxScaler()
-            scaled_data = scaler.fit_transform(data[[feature]])
-            self.scalers_encoders[f"minmax_scaling_{feature}_scaler"] = scaler
-        else:
-            try:
-                scaler = self.scalers_encoders[f"minmax_scaling_{feature}_scaler"]
-                scaled_data = scaler.transform(data[[feature]])
-            except KeyError:
-                return None
-
-        scaled_features = pd.DataFrame(scaled_data, columns=[f"{feature}_scaled"])
-        return scaled_features
 
     def ScalerStrategy(self, data, feature, data_type, scaler_type):
         if data_type == "train":
@@ -86,8 +69,7 @@ class FeatureEngineer:
     def encode_binary_feature(self, data, feature, binary_map):
         return data[feature].map(binary_map)
 
-
-    def preprocess(self, data, feature_definitions, data_type):
+    def preprocess(self, data, feature_definitions, data_type, sampleing=False):
         # Initialize empty lists to store encoded, scaled, and transformed features
         encoded_features = []
         scaled_features = []
@@ -126,13 +108,19 @@ class FeatureEngineer:
                 if scaled_vals is not None:
                     scaled_features.append(scaled_vals)
 
+            # RobustScaler scaling
+            elif preprocess_type == "RobustScaler_scaling":
+                features_to_remove.append(feature)
+                scaled_vals = self.ScalerStrategy(data, feature, data_type, RobustScaler)
+                if scaled_vals is not None:
+                    scaled_features.append(scaled_vals)
+
             # Label encoding
             elif preprocess_type == "label_encoding":
                 features_to_remove.append(feature)
                 encoded_vals = self.LabelEncoderStrategy(data, feature, data_type)
                 if encoded_vals is not None:
                     encoded_features.append(encoded_vals)
-
 
             # # If the preprocess type is not recognized, raise an error
             # else:
@@ -156,5 +144,13 @@ class FeatureEngineer:
 
         # Combine all features into a single DataFrame
         processed_data = pd.concat([data, encoded_df, scaled_df, transformed_df], axis=1)
+        processed_data = processed_data.drop(columns=features_to_remove)
 
-        return processed_data.drop(columns=features_to_remove)
+        # # Apply sampling method if specified
+        # if self.sampling_method and sampleing:
+        #     sampled_data, sampled_target = self.sampler_list[self.sampling_method].fit_resample(processed_data.drop(columns=[Config.label_name]), processed_data[Config.label_name])
+        #     sampled_data = pd.DataFrame(sampled_data, columns=sampled_data.columns)
+        #     target = pd.Series(sampled_target, name=Config.label_name)
+        #     processed_data = pd.concat([sampled_data, target], axis=1)
+
+        return processed_data

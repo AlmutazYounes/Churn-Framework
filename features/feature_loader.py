@@ -1,14 +1,16 @@
 import numpy as np
 import pandas as pd
 
-from config import Config
-from feature_engineer import FeatureEngineer
-from util import Util
+from Utils.config import Config, run_params
+from features.feature_engineer import FeatureEngineer
+from Utils.util import Util
 
 
 class FeatureLoader:
-    def __init__(self, feature_definitions):
+    def __init__(self, feature_definitions, sampling_method, sample_ratio):
         self.feature_definitions = feature_definitions
+        self.sampling_method = sampling_method
+        self.sample_ratio = sample_ratio
 
     def feature_extraction_methods(self, data, feature, type_, **conf):
         if type_ == "absolute":
@@ -32,8 +34,8 @@ class FeatureLoader:
             test_feature = self.feature_extraction_methods(test_data, feature, feature_params["type"], **conf)
             test_features = pd.concat([test_features, pd.DataFrame(test_feature)], axis=1)
 
-        fe = FeatureEngineer()
-        train_features = fe.preprocess(train_features, self.feature_definitions, data_type="train")
+        fe = FeatureEngineer(self.sampling_method, self.sample_ratio)
+        train_features = fe.preprocess(train_features, self.feature_definitions, data_type="train", sampleing=True)
         test_features = fe.preprocess(test_features, self.feature_definitions, data_type="test")
         return train_features, test_features
 

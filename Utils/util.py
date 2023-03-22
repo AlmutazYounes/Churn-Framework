@@ -1,12 +1,12 @@
 import json
+import os
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
-from config import Config
-
+from Utils.config import Config
 
 class Util:
     @staticmethod
@@ -38,6 +38,14 @@ class Util:
     @staticmethod
     def get_feature_definitions(features_type):
         if features_type == "telecom":
-            with open("telecom_feature_definitions.json", 'r') as f:
+            with open(Config.telecom_data, 'r') as f:
                 feature_definitions = json.load(f)
             return feature_definitions
+
+    @staticmethod
+    def check_path(path):
+        if path == "" : return
+        if not os.path.exists(path):
+            Util.check_path("/".join(path.split("/")[:-1]))
+            if '.' not in path.split("/")[-1]:
+                os.mkdir(path)
