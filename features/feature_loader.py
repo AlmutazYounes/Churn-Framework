@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 
 from Utils.config import Config, run_params
-from features.feature_engineer import FeatureEngineer
 from Utils.util import Util
+from features.feature_engineer import FeatureEngineer
 
 
 class FeatureLoader:
@@ -34,9 +34,9 @@ class FeatureLoader:
             test_feature = self.feature_extraction_methods(test_data, feature, feature_params["type"], **conf)
             test_features = pd.concat([test_features, pd.DataFrame(test_feature)], axis=1)
 
-        fe = FeatureEngineer(self.sampling_method, self.sample_ratio)
+        fe = FeatureEngineer(self.sampling_method, self.sample_ratio, run_params.missing_values_numarical)
         train_features = fe.preprocess(train_features, self.feature_definitions, data_type="train", sampleing=True)
-        test_features = fe.preprocess(test_features, self.feature_definitions, data_type="test")
+        test_features = fe.preprocess(test_features, self.feature_definitions, data_type="test", sampleing=False)
         return train_features, test_features
 
     def preprocessing(self, train_data, test_data):
