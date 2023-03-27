@@ -44,6 +44,6 @@ class FeatureLoader:
         test_data = test_data.replace(" ", np.nan)
         return train_data, test_data
 
-    def save_features(self, train_data, test_data):
-        train_data.to_csv(Config.features_train_output_file, index=False)
-        test_data.to_csv(Config.features_test_output_file, index=False)
+    def save_features(self, train_data, test_data, sampling_method, ratio):
+        train_data.to_csv(f"{Config.features_train_output_file}_{sampling_method}_{ratio}.csv", index=False)
+        test_data.to_csv(f"{Config.features_test_output_file}_{sampling_method}_{ratio}.csv", index=False)

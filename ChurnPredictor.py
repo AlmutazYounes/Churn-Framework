@@ -1,7 +1,8 @@
 from Utils.config import Config, run_params
 from Utils.util import Util
-from automl.Automl import AutoML
 from features.feature_loader import FeatureLoader
+from automl.H2oAutoMl import AutoML
+# from automl.Automl import AutoML
 
 
 class ChurnPredictor:
@@ -14,11 +15,11 @@ class ChurnPredictor:
         self.train_data, self.test_data = feature_extractor.preprocessing(self.train_data, self.test_data)
 
         self.train_data, self.test_data = feature_extractor.extract_features(self.train_data, self.test_data)
-        feature_extractor.save_features(self.train_data, self.test_data)
+        feature_extractor.save_features(self.train_data, self.test_data, sampling_method, ratio)
         return self.train_data, self.test_data
 
-    def train_model(self, train_data, test_data, sampling_method):
-        AutoML(train_data, test_data, f"Output/{sampling_method}").fit()
+    def train_model(self, train_data, test_data, sampling_method, ratio):
+        AutoML(train_data, test_data, f"Output/{sampling_method}_{ratio}").fit()
 
     def run(self):
         for sampling_method, ratio_list in run_params.sampling.items():
@@ -26,13 +27,10 @@ class ChurnPredictor:
                 print(
                     f" ##################################### {sampling_method} : {ratio} ##################################### ")
                 train_data, test_data = self.extract_features(sampling_method, ratio)
-                self.train_model(train_data, test_data, sampling_method)
+                self.train_model(train_data, test_data, sampling_method, ratio)
 
 
 if __name__ == '__main__':
     churn_predictor = ChurnPredictor()
     churn_predictor.run()
-# To Do:
-# Work on sampling teq. --------------
-# Handle missing values --------------
-# Apply some analysis on the resutls
+
