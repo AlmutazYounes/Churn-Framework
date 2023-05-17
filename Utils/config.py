@@ -1,7 +1,7 @@
 class Config:
-    features_path = r"dataset/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+    dataset_path = r"dataset/WA_Fn-UseC_-Telco-Customer-Churn.csv"
     features_type = "telecom"
-    label_name = "Churn"
+    target_variable = "Churn"
     features_train_output_file = "features/features_train"
     features_test_output_file = "features/features_test"
     telecom_data = "features/telecom_feature_definitions.json"

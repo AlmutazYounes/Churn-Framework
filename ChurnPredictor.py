@@ -13,7 +13,7 @@ class ChurnPredictor:
         self.test_data = None
 
     def extract_features(self, sampling_method, ratio):
-        self.train_data, self.test_data = Util.load_data(Config.features_path)
+        self.train_data, self.test_data = Util.load_data(Config.dataset_path)
         feature_extractor = FeatureLoader(self.feature_definitions, sampling_method, ratio)
         self.train_data, self.test_data = feature_extractor.preprocess_data(self.train_data, self.test_data)
         self.train_data, self.test_data = feature_extractor.extract_features(self.train_data, self.test_data)

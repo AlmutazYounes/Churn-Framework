@@ -177,9 +177,9 @@ class FeatureEngineer:
         # Apply sampling method if specified
         if self.sampling_method and sampleing:
             sampled_data, sampled_target = self.sampler_list[self.sampling_method].fit_resample(
-                processed_data.drop(columns=[Config.label_name]), processed_data[Config.label_name])
+                processed_data.drop(columns=[Config.target_variable]), processed_data[Config.target_variable])
             sampled_data = pd.DataFrame(sampled_data, columns=sampled_data.columns)
-            target = pd.Series(sampled_target, name=Config.label_name)
+            target = pd.Series(sampled_target, name=Config.target_variable)
             processed_data = pd.concat([sampled_data, target], axis=1)
         return processed_data
 

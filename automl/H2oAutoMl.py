@@ -21,8 +21,8 @@ class AutoML:
         test_h2o = h2o.H2OFrame(self.test)
 
         # Identify predictors and response
-        x = [i for i in train_h2o.columns if i != Config.label_name]
-        y = Config.label_name
+        x = [i for i in train_h2o.columns if i != Config.target_variable]
+        y = Config.target_variable
 
         # Convert the target column to categorical
         train_h2o[y] = train_h2o[y].asfactor()
@@ -56,7 +56,7 @@ class AutoML:
         }
         model_metrics = {'model': best_model.model_id}
         for metric_name, metric_func in metrics.items():
-            model_metrics[metric_name] = metric_func(self.test[Config.label_name], y_pred)
+            model_metrics[metric_name] = metric_func(self.test[Config.target_variable], y_pred)
 
         # Append the metrics of the best model to the results dataframe
         self.results = pd.concat([self.results, pd.DataFrame(model_metrics, index=[0])], ignore_index=True)
@@ -71,7 +71,7 @@ class AutoML:
             y_pred = model.predict(test_h2o).as_data_frame()['predict']
             model_metrics = {'model': model_id}
             for metric_name, metric_func in metrics.items():
-                model_metrics[metric_name] = metric_func(self.test[Config.label_name], y_pred)
+                model_metrics[metric_name] = metric_func(self.test[Config.target_variable], y_pred)
             # Append the model metrics to the results dataframe
             self.results = pd.concat([self.results, pd.DataFrame(model_metrics, index=[0])], ignore_index=True)
 
